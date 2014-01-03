@@ -28,3 +28,18 @@ There are two lists: questions and answers. User must match for every question a
 
 #### optional parameters
 shuffle : true|false
+description : 'html text'
+
+### statement
+
+#### description
+
+User must decide if the statement is true or false
+
+#### JSON
+
+```
+{ statement : 'html text',
+  answer : true|false
+}
+
