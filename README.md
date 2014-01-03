@@ -18,7 +18,7 @@ There are two lists: questions and answers. User must match for every question a
 
 #### JSON
 ```
-{ questions: ['hello', 'fire', 'the', 'bricks'],
+{ matches: ['hello', 'fire', 'the', 'bricks'],
   answers: [5, 4, 3, 6, 0, 10 ]
 }
 ```
@@ -53,8 +53,43 @@ The answer for the question is short, usually one or two words. Customer can use
 #### JSON
 
 ```
-{ question: 'html text',
+{ short: 'html text',
   answers : [ { answer: 'regexp', grade: floating point number between 0 and 1}, ... ]
 }
 ```
+
+### single-answer
+
+User must choose only one from some given answers
+
+#### JSON
+
+```
+{ single: 'html text',
+  answers: ['text', 'text', ...]
+}
+```
+
+The first answer is the good one. On the screen, the answers will be randomly ordered.
+
+### multiple-answers
+
+User must choose some, but at least one from many given answers
+
+#### JSON
+
+```
+{ multiple: 'html text',
+  answers: ['text', 'text', ...],
+}
+```
+
+optional:
+```
+  good: number-of-good-answers
+  none: true
+```
+
+By default (if 'good' not used), all answers treated as good answers.
+The first number-of-good-answers answers are the good ones. If it is zero or 'none' is true, there will be a "none of the above" answer on the screen.
 
