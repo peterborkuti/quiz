@@ -42,4 +42,19 @@ User must decide if the statement is true or false
 { statement : 'html text',
   answer : true|false
 }
+```
+
+### short-answer
+
+#### description
+
+The answer for the question is short, usually one or two words. Customer can use regular expression.
+
+#### JSON
+
+```
+{ question: 'html text',
+  answers : [ { answer: 'regexp', grade: floating point number between 0 and 1}, ... ]
+}
+```
 
