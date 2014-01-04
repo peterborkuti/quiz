@@ -9,9 +9,18 @@
  { single: 'From which version Ext plugins are not supported?',
    answers: ['6.0', '4.3.0', '2.6.1', '5.2', '3.2.0']
  },
- { short: 'name the environment with which you can develeop hot-deployable plugins for Liferay!',
+ { short: 'Name the environment with which you can develeop hot-deployable plugins for Liferay!',
    answers : [ 'plugin[s]{0,1}[ ]*sdk']
  },
- 
+ { short: 'Name the jar of portal API!',
+   answers : [ 'portal-service.*']
+ },
+ { short: "Name the jar of portal API's implementation!",
+   answers : [ 'portal-impl.*']
+ },
+ { short: "To force portlets to rely completely on the Portal’s API, portlets may only import " + 
+          "classes from JARs which are contained in the portlet’s folder:',
+   answers: [ 'WEB-INF/lib' ]
+ }
  
 ]
