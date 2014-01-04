@@ -2,11 +2,11 @@
 
 ## Question Types
 
-* [Matching question](###Matching question)
-* [Statement (true/false)](###statement)
-* [short-answer](###short-answer)
+* [Matching question](#Matching question)
+* [Statement (true/false)](#statement)
+* [short-answer](#short-answer)
 * [single-answer](#single-answer)
-* [multiple-answers](###multiple-answers)
+* [multiple-answers](#multiple-answers)
 
 ### Matching question
 
