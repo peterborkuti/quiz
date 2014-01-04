@@ -19,7 +19,7 @@
    answers : [ 'portal-impl.*']
  },
  { short: "To force portlets to rely completely on the Portal’s API, portlets may only import " + 
-          "classes from JARs which are contained in the portlet’s folder:',
+          "classes from JARs which are contained in the portlet’s folder:",
    answers: [ 'WEB-INF/lib' ]
  }
  
