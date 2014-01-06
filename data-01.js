@@ -1,4 +1,7 @@
 [
+ { matches: ['hello', 'fire', 'the', 'bricks'],
+   answers: [5, 4, 3, 6, 0, 10 ]
+ },
  { multiple: 'Name the liferay plugin-types!',
    answers: ['portlets','themes','layout templates','web modules','hooks','ext plugins','containers','services','pluggers','connectors'],
    good: 6

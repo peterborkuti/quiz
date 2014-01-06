@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz v0.1</title>
+    <script src="js/jq/jquery-2.0.3.js"></script>
+	<script src="js/ko/knockout-3.0.0.js"></script>
+	<script src="js/quiz.js"></script>
+</head>
+<body>
+    <h1>Quiz</h1>
+
+<div data-bind="foreach: {data: questions, as: 'question'}">	
+	<h3>Question: <span data-bind="text: $index"></span></h3>	
+
+	<div data-bind="visible: question.questionType === 'matches'">
+		<ul data-bind="foreach: question.matches">
+			<li><span data-bind="text: $data"></span>
+			<select data-bind="options: shuffle($parent.answers)"></select>
+			</li>
+		</ul>
+	</div>
+
+	<div data-bind="visible: question.questionType === 'statement'">
+		STATEMENT
+		
+	</div>
+
+
+</div> <!-- question --->
+</body>
+</html>
