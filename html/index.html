@@ -21,10 +21,18 @@
 		</ul>
 	</div>
 
-	<div data-bind="visible: question.questionType === 'statement'">
-		STATEMENT
-		
+	<div data-bind="visible: $data.questionType === 'multiple'">
+		<div data-bind="text: $data.multiple"></div>
+		<ul data-bind="foreach: $data.answers">
+			<li>
+			<input type="checkbox" />
+			<span data-bind="text: $data"></span>
+			
+			</li>
+		</ul>
 	</div>
+
+
 
 
 </div> <!-- question --->

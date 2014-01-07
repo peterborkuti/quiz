@@ -7,26 +7,35 @@ console.log("DOM is ready");
 				this.questionType = 'matches';
 				this.matches = data.matches;
 				this.answers = data.answers;
-			} else {
+			}
+			else if ( typeof data.multiple !== 'undefined' ) {
+				this.questionType = 'multiple';
+				this.multiple = data.multiple;
+				this.answers = data.answers;
+				this.checked = new Array(data.answers.length);
+				this.good = data.good;
+			}
+			else {
 				console.log('unknown question type');
 			}
+
 			this.getShuffledAnswers = function() {
-			var array = this.answers;
-			var counter = array.length, temp, index;
+				var array = this.answers;
+				var counter = array.length, temp, index;
 
-			// While there are elements in the array
-			while (counter--) {
-				// Pick a random index
-				index = (Math.random() * counter) | 0;
+				// While there are elements in the array
+				while (counter--) {
+					// Pick a random index
+					index = (Math.random() * counter) | 0;
 
-				// And swap the last element with it
-				temp = array[counter];
-				array[counter] = array[index];
-				array[index] = temp;
-			}
+					// And swap the last element with it
+					temp = array[counter];
+					array[counter] = array[index];
+					array[index] = temp;
+				}
 
 			return array;
-		}
+			}
 
 	}
 
