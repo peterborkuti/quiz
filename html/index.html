@@ -10,13 +10,13 @@
 <body>
     <h1>Quiz</h1>
 
-<div data-bind="foreach: {data: questions, as: 'question'}">	
+<div data-bind="foreach: questions">	
 	<h3>Question: <span data-bind="text: $index"></span></h3>	
 
-	<div data-bind="visible: question.questionType === 'matches'">
-		<ul data-bind="foreach: question.matches">
+	<div data-bind="visible: $data.questionType === 'matches'">
+		<ul data-bind="foreach: $data.matches">
 			<li><span data-bind="text: $data"></span>
-			<select data-bind="options: shuffle($parent.answers)"></select>
+			<select data-bind="options: $parent.getShuffledAnswers()"></select>
 			</li>
 		</ul>
 	</div>
