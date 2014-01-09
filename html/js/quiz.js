@@ -1,5 +1,12 @@
+
 $(function() {
 console.log("DOM is ready");
+	ko.bindingHandlers.radioName = {
+		init: function(element, valueAccessor) {
+			var value = ko.unwrap(valueAccessor()); // Get the current value of the current property we're bound to
+			$(element).attr('name', value);         // jQuery will set the name of the radio button
+		}
+	};
 
 	function Question(data, _index) {
 			this.index = _index;
@@ -7,6 +14,7 @@ console.log("DOM is ready");
 				this.questionType = 'matches';
 				this.matches = data.matches;
 				this.answers = data.answers;
+				this.description = data.description;
 			}
 			else if ( typeof data.multiple !== 'undefined' ) {
 				this.questionType = 'multiple';
@@ -14,6 +22,19 @@ console.log("DOM is ready");
 				this.answers = data.answers;
 				this.checked = new Array(data.answers.length);
 				this.good = data.good;
+			}
+			else if ( typeof data.single !== 'undefined' ) {
+				this.questionType = 'single';
+				this.single = data.single;
+				this.answers = data.answers;
+				this.checked = new Array(data.answers.length);
+				this.radioName = 'radio_'+_index;
+			}
+			else if ( typeof data.short !== 'undefined' ) {
+				this.questionType = 'short';
+				this.short = data.short;
+				this.answers = data.answers;
+				this.answer = '';
 			}
 			else {
 				console.log('unknown question type');

@@ -12,7 +12,7 @@
 
 <div data-bind="foreach: questions">	
 	<h3>Question: <span data-bind="text: $index"></span></h3>	
-
+	<div data-bind="text: $data.description"></div>
 	<div data-bind="visible: $data.questionType === 'matches'">
 		<ul data-bind="foreach: $data.matches">
 			<li><span data-bind="text: $data"></span>
@@ -32,8 +32,21 @@
 		</ul>
 	</div>
 
+	
+	<div data-bind="visible: $data.questionType === 'single'">
+		<div data-bind="text: $data.single"></div>
+		<ul data-bind="foreach: $data.answers">
+			<li>
+			<input type="radio" data-bind="radioName: 'radio_'+$parent.index"/>
+			<span data-bind="text: $data"></span>
+			</li>
+		</ul>
+	</div>
 
-
+	<div data-bind="visible: $data.questionType === 'short'">
+		<div data-bind="text: $data.short"></div>
+		<input type="text" data-bind="text: $data.answer"/>
+	</div>
 
 </div> <!-- question --->
 </body>

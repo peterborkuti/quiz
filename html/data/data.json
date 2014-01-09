@@ -1,6 +1,8 @@
 [
- { "matches": ["hello", "fire", "the", "bricks"],
-   "answers": [5, 4, 3, 6, 0, 10 ]
+ {
+   "description" : "Name the folder for each type of plugin!",
+   "matches": ["portlets", "themes", "layout templates", "web modules", "hooks", "ext-plugins"],
+   "answers": ["portlets", "themes", "layouttpl", "webs", "hooks", "ext", "portlet", "ptl", "theme", "tpl", "layout", "layouts", "web", "modules", "hook", "exts", "extlpugins" ]
  },
  { "multiple": "Name the liferay plugin-types!",
    "answers": ["portlets","themes","layout templates","web modules","hooks","ext plugins","containers","services","pluggers","connectors"],
