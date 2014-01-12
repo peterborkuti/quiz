@@ -1,4 +1,3 @@
-var qvm = {};
 $(function() {
 "use strict";
 
@@ -96,34 +95,56 @@ $(function() {
                     self[prop] = question[prop];
                 }
             }
+            self.templateName = 'tpl_'+self.questionType;
 	}
 
-	function QuestionsViewModel() {
+	function getQuestions(questions) {
 		// Data
-		var self = this;
-
-		self.questions = ko.observableArray([]);
 
 		$.get( "data/data.json", function(allData) {
 			var data = $.parseJSON(allData);
 
-			var mappedQuestions = $.map(data,
-				function(item, index) {
-				     return new Question(item, index);
-				});
-
-			console.log("data received from server");
-
-			self.questions(mappedQuestions);
+			$(data).each(function(index, item) {
+				     questions.push( new Question(item, index) );
+			});
 		});
-
-        self.templateName = function(question, context) {
-            return "tpl_"+question.questionType;
-        }
 	}
 
-    qvm = new QuestionsViewModel();
+    function ViewModel() {
+        var self = this;
+        self.questions = ko.observableArray([]);
+        getQuestions(self.questions);
+        self.state = ko.observable('view'); // all, view, stat, settings
+        self.questionId = ko.observable(0);
+        self.question = ko.computed(function() {
+            return self.questions()[self.questionId()];
+        });
+    }
+
+    var qvm = new ViewModel();
 	ko.applyBindings(qvm);
 
-	console.log("KO ran");
+    var routeAll = function () {
+             qvm.state('all');
+             console.log("all"); },
+        routeView = function (questionId) {
+             qvm.state('view');
+             questionId = questionId || qvm.questionId();
+             qvm.questionId(questionId);
+            console.log("view"); },
+        routeStat = function() { console.log("stat"); },
+        routeSettings = function() { console.log("settings"); };
+        
+      var routes = {
+        '/all': routeAll,
+        '/view/:questionId': routeView,
+        '/view': routeView,
+        '/stat': routeStat,
+        '/set' : routeSettings
+      };
+
+      var router = Router(routes);
+      router.init();
+
 });
+
