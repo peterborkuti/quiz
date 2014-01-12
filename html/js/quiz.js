@@ -1,6 +1,7 @@
-
+var qvm = {};
 $(function() {
-console.log("DOM is ready");
+"use strict";
+
 	ko.bindingHandlers.radioName = {
 		init: function(element, valueAccessor) {
 			var value = ko.unwrap(valueAccessor()); // Get the current value of the current property we're bound to
@@ -8,40 +9,7 @@ console.log("DOM is ready");
 		}
 	};
 
-	function Question(data, _index) {
-			this.index = _index;
-			if ( typeof data.matches !== 'undefined' ) {
-				this.questionType = 'matches';
-				this.matches = data.matches;
-				this.answers = data.answers;
-				this.description = data.description;
-			}
-			else if ( typeof data.multiple !== 'undefined' ) {
-				this.questionType = 'multiple';
-				this.multiple = data.multiple;
-				this.answers = data.answers;
-				this.checked = new Array(data.answers.length);
-				this.good = data.good;
-			}
-			else if ( typeof data.single !== 'undefined' ) {
-				this.questionType = 'single';
-				this.single = data.single;
-				this.answers = data.answers;
-				this.checked = new Array(data.answers.length);
-				this.radioName = 'radio_'+_index;
-			}
-			else if ( typeof data.short !== 'undefined' ) {
-				this.questionType = 'short';
-				this.short = data.short;
-				this.answers = data.answers;
-				this.answer = '';
-			}
-			else {
-				console.log('unknown question type');
-			}
-
-			this.getShuffledAnswers = function() {
-				var array = this.answers;
+			function shuffleArray(array) {
 				var counter = array.length, temp, index;
 
 				// While there are elements in the array
@@ -58,6 +26,76 @@ console.log("DOM is ready");
 			return array;
 			}
 
+    function MatchesQuestion(data) {
+                var self = this;
+				self.questionType = 'matches';
+				self.matches = [];
+				self.answers = data.answers;
+                $(data.matches).each(function(i,v) {
+                    self.matches.push(
+                        {
+                            match: v,
+                            selected: data.answers[i]
+                        }
+                    )
+                });
+    }
+
+    function MultipleQuestion(data) {
+        var self = this;
+				self.questionType = 'multiple';
+				self.multiple = data.multiple;
+				self.answers = data.answers;
+				self.checked = new Array(data.answers.length);
+				self.good = data.good;
+
+    }
+
+    function SingleQuestion(data) {
+        var self = this, r = Math.random();
+				self.questionType = 'single';
+				self.single = data.single;
+				self.answers = data.answers;
+				self.checked = new Array(data.answers.length);
+				self.radioName = 'radio_';
+    }
+
+    function ShortQuestion(data) {
+        var self = this;
+				self.questionType = 'short';
+				self.short = data.short;
+				self.answers = data.answers;
+				self.answer = '';
+    }
+
+	function Question(data, _index) {
+            var self = this, question = {};
+			self.index = _index;
+            self.description = data.description || '';
+            self.portaldev = data.portaldev || '';
+            self.portaladvdev = data.portaladvdev || '';
+            self.explanation = data.explanation || '';
+            self.hint = data.hint || '';
+			if ( typeof data.matches !== 'undefined' ) {
+                question = new MatchesQuestion(data);
+			}
+			else if ( typeof data.multiple !== 'undefined' ) {
+                question = new MultipleQuestion(data);
+			}
+			else if ( typeof data.single !== 'undefined' ) {
+                question = new SingleQuestion(data);
+			}
+			else if ( typeof data.short !== 'undefined' ) {
+                question = new ShortQuestion(data);
+			}
+			else {
+				console.log('unknown question type');
+			}
+            for (var prop in question) {
+                if (question.hasOwnProperty(prop)) {
+                    self[prop] = question[prop];
+                }
+            }
 	}
 
 	function QuestionsViewModel() {
@@ -65,25 +103,27 @@ console.log("DOM is ready");
 		var self = this;
 
 		self.questions = ko.observableArray([]);
+
 		$.get( "data/data.json", function(allData) {
 			var data = $.parseJSON(allData);
+
+			var mappedQuestions = $.map(data,
+				function(item, index) {
+				     return new Question(item, index);
+				});
+
 			console.log("data received from server");
-			var mappedQuestions = $.map(data, function(item, index) { return new Question(item, index) });
+
 			self.questions(mappedQuestions);
-		  console.log( "success" );
-		})
-		  .done(function() {
-			alert( "second success" );
-		  })
-		  .fail(function() {
-			alert( "error" );
-		  })
-		  .always(function() {
-			alert( "finished" );
-		  });
+		});
+
+        self.templateName = function(question, context) {
+            return "tpl_"+question.questionType;
+        }
 	}
 
-	ko.applyBindings(new QuestionsViewModel());
+    qvm = new QuestionsViewModel();
+	ko.applyBindings(qvm);
 
 	console.log("KO ran");
 });

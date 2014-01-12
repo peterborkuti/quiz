@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="js/ko/knockout-3.0.0.debug.js"></script>
+</head>
+<body>
+
+<div data-bind="foreach: array1">	
+		<ul data-bind="foreach: array11">
+			<li>
+                <span data-bind="text: $index"></span>
+                <span data-bind="text: $parent.array11['0']"></span>
+                <span data-bind="text: $root.array2[0]"></span>
+                <span data-bind="text: $root.array2[$index]"></span>
+          </li>
+		</ul>
+</div>
+
+<!-- 
+EXPERIENCED BEHAVIOUR:
+* 0 a
+* 1 a
+
+EXPECTED BEHAVIOUR:
+* 0 a a
+* 1 a b
+-->
+
+	<script>
+        (function() {
+            function ViewModel() {
+                this.array1 = [
+                    { array11 : ["c", "d"] }
+                ];
+                this.array2 = ["a", "b"];
+            }
+            	ko.applyBindings(new ViewModel());
+        })();
+</script>
+</body>
+</html>

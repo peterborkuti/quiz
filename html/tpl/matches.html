@@ -1,0 +1,8 @@
+		<ol data-bind="foreach: matches">
+			<li>
+                <span data-bind="text: match"></span>
+                
+			<select data-bind="options: $parent.answers, value: selected"></select>
+
+			</li>
+		</ol>

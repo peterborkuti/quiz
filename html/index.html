@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Quiz v0.1</title>
     <script src="js/jq/jquery-2.0.3.js"></script>
-	<script src="js/ko/knockout-3.0.0.js"></script>
+	<script src="js/ko/knockout-3.0.0.debug.js"></script>
 	<script src="js/quiz.js"></script>
 </head>
 <body>
@@ -12,18 +12,22 @@
 
 <div data-bind="foreach: questions">	
 	<h3>Question: <span data-bind="text: $index"></span></h3>	
-	<div data-bind="text: $data.description"></div>
-	<div data-bind="visible: $data.questionType === 'matches'">
-		<ul data-bind="foreach: $data.matches">
-			<li><span data-bind="text: $data"></span>
-			<select data-bind="options: $parent.getShuffledAnswers()"></select>
+	<div data-bind="text: description"></div>
+
+	<div data-bind="if: questionType === 'matches'">
+		<ol data-bind="foreach: matches">
+			<li>
+                <span data-bind="text: match"></span>
+                
+			<select data-bind="options: $parent.answers, value: selected"></select>
+
 			</li>
-		</ul>
+		</ol>
 	</div>
 
-	<div data-bind="visible: $data.questionType === 'multiple'">
-		<div data-bind="text: $data.multiple"></div>
-		<ul data-bind="foreach: $data.answers">
+	<div data-bind="if: questionType === 'multiple'">
+		<div data-bind="text: multiple"></div>
+		<ul data-bind="foreach: answers">
 			<li>
 			<input type="checkbox" />
 			<span data-bind="text: $data"></span>
@@ -33,8 +37,8 @@
 	</div>
 
 	
-	<div data-bind="visible: $data.questionType === 'single'">
-		<div data-bind="text: $data.single"></div>
+	<div data-bind="if: $data.questionType === 'single'">
+		<div data-bind="text: single"></div>
 		<ul data-bind="foreach: $data.answers">
 			<li>
 			<input type="radio" data-bind="radioName: 'radio_'+$parent.index"/>
@@ -43,8 +47,8 @@
 		</ul>
 	</div>
 
-	<div data-bind="visible: $data.questionType === 'short'">
-		<div data-bind="text: $data.short"></div>
+	<div data-bind="if: $data.questionType === 'short'">
+		<div data-bind="text: short"></div>
 		<input type="text" data-bind="text: $data.answer"/>
 	</div>
 

@@ -8,6 +8,11 @@
    "answers": ["portlets","themes","layout templates","web modules","hooks","ext plugins","containers","services","pluggers","connectors"],
    "good": 6
  },
+ {
+   "description" : "Name the folder for each type of plugin!",
+   "matches": ["portlets", "themes", "layout templates", "web modules", "hooks", "ext-plugins"],
+   "answers": ["portlets", "themes", "layouttpl", "webs", "hooks", "ext", "portlet", "ptl", "theme", "tpl", "layout", "layouts", "web", "modules", "hook", "exts", "extlpugins" ]
+ },
  { "single": "In which version introduced Liferay the idea of hot-deployable plugins?",
    "answers": ["4.3.0", "2.6.1", "5.2", "6.0", "3.2.0"]
  },

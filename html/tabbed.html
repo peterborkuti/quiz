@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz-tabbed</title>
+    <script src="js/jq/jquery-2.0.3.js"></script>
+	<script src="js/ko/knockout-3.0.0.debug.js"></script>
+	<script src="js/quiz.js"></script>
+    <!-- TEMPLATES -->
+    <script type="text/html" id="tpl_matches">
+		<ol data-bind="foreach: matches">
+			<li>
+                <span data-bind="text: match"></span>
+                
+			<select data-bind="options: $parent.answers, value: selected"></select>
+
+			</li>
+		</ol>
+    </script>
+    <script type="text/html" id="tpl_multiple">
+		<div data-bind="text: multiple"></div>
+		<ul data-bind="foreach: answers">
+			<li>
+			<input type="checkbox" />
+			<span data-bind="text: $data"></span>
+			
+			</li>
+		</ul>
+    </script>
+    <script type="text/html" id="tpl_single">
+    		<div data-bind="text: single"></div>
+		<ul data-bind="foreach: $data.answers">
+			<li>
+			<input type="radio" data-bind="radioName: 'radio_'+$parent.index"/>
+			<span data-bind="text: $data"></span>
+			</li>
+		</ul>
+</script>
+    <script type="text/html" id="tpl_short">
+		<div data-bind="text: short"></div>
+        <input type="text"/>
+</script>
+</head>
+<body>
+<div class="menu">
+<a href="#all">All Question</a>
+<a href="#view">View One Question</a>
+<a href="#stat">Statistics</a>
+<a href="#settings">Settings</a>
+</div>
+
+<div id="page">
+
+<div data-bind="visible: app.state === 'all'">
+    <div data-bind="foreach: app.questions">
+        <div class="question">
+            <div class="question-header" data-bind="text: $index"></div>
+            <div data-bind="template: 'tpl_'+questionType"></div>
+        </div>
+    </div>
+</div>
+
+<div data-bind="visible: app.state === 'view'">
+    <div class="question">
+        <div class="question-header" data-bind="text: TODO"></div>
+        <div data-bind="template: 'tpl_'+app.question.questionType"></div>
+    </div>
+</div>
+
+</div> <!-- page -->
+
+</body>
+</html>
