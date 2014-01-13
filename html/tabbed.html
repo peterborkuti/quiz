@@ -28,6 +28,19 @@
 			</li>
 		</ul>
     </script>
+    <script type="text/html" id="tpl_statements">
+		<div data-bind="foreach: statements">
+        
+
+        </div>
+		<ul data-bind="foreach: answers">
+			<li>
+			<input type="checkbox" />
+			<span data-bind="text: $data"></span>
+			
+			</li>
+		</ul>
+    </script>
     <script type="text/html" id="tpl_single">
     		<div data-bind="text: single"></div>
 		<ul data-bind="foreach: $data.answers">
@@ -65,8 +78,8 @@
     <div class="question" data-bind="with: question">
         <div class="question-header" data-bind="text: 'TODO'"></div>
         <div data-bind="template: templateName"></div>
-        <a data-bind="attr: { href : '#/view/'+(index-1)}">Prev</a>
-        <a data-bind="attr: { href : '#/view/'+(index+1)}">Next</a>
+        <a data-bind="attr: { href : '#/view/'+(index-1)}, visible: index > 0">Prev</a>
+        <a data-bind="attr: { href : '#/view/'+(index+1)}, visible: index < $parent.questions.length">Next</a>
     </div>
 
 </div>

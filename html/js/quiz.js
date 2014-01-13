@@ -67,6 +67,22 @@ $(function() {
 				self.answer = '';
     }
 
+    function StatementsQuestion(data) {
+        var self = this;
+				self.questionType = 'statements';
+				self.statements = data.statements;
+				self.answers = data.answers;
+                $(data.answers).each(function(i,v) {
+                    self.answers.push(
+                        {
+                            answer: v,
+                            selected: ko.observable(false)
+                        }
+                    )
+                });
+    }
+
+
 	function Question(data, _index) {
             var self = this, question = {};
 			self.index = _index;
@@ -86,6 +102,9 @@ $(function() {
 			}
 			else if ( typeof data.short !== 'undefined' ) {
                 question = new ShortQuestion(data);
+			}
+			else if ( typeof data.statements !== 'undefined' ) {
+                question = new StatementsQuestion(data);
 			}
 			else {
 				console.log('unknown question type');
