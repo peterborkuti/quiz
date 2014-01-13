@@ -8,18 +8,13 @@
    "answers": ["portlets","themes","layout templates","web modules","hooks","ext plugins","containers","services","pluggers","connectors"],
    "good": 6
  },
- {
-   "description" : "Name the folder for each type of plugin!",
-   "matches": ["portlets", "themes", "layout templates", "web modules", "hooks", "ext-plugins"],
-   "answers": ["portlets", "themes", "layouttpl", "webs", "hooks", "ext", "portlet", "ptl", "theme", "tpl", "layout", "layouts", "web", "modules", "hook", "exts", "extlpugins" ]
- },
  { "single": "In which version introduced Liferay the idea of hot-deployable plugins?",
    "answers": ["4.3.0", "2.6.1", "5.2", "6.0", "3.2.0"]
  },
  { "single": "From which version Ext plugins are not supported?",
    "answers": ["6.0", "4.3.0", "2.6.1", "5.2", "3.2.0"]
  },
- { "short": "Name the environment with which you can develeop hot-deployable plugins for Liferay!",
+ { "short": "Name the environment with which you can develop hot-deployable plugins for Liferay!",
    "answers" : [ "plugin[s]{0,1}[ ]*sdk"]
  },
  { "short": "Name the jar of portal API!",
@@ -30,5 +25,34 @@
  },
  { "short": "To force portlets to rely completely on the Portal’s API, portlets may only import classes from JARs which are contained in the portlet’s folder:",
    "answers": [ "WEB-INF/lib" ]
+ },
+ { "short": "Name the script with wich you can create plugins!",
+   "answers": [ "create.sh", "create.bat" ]
+ },
+ { "single": "Choose the best syntaxes for plugin creation!. The portlet id is 'myPortlet', the display name is 'My Portlet', the author name is 'Programmer'.",
+   "answers": [ "create.sh myPortlet 'My Portlet'", "create.bat myPortlet", "create.sh 'My Portlet'", "create.bat 'Programmer' myPortlet 'My Portlet'", "create.sh 'My Portlet' myPortlet" ]
+ },
+ { "multiple": "Name the three main properties files of Liferay!",
+   "answers": ["portal.properties","portal-ext.properties","portal-setup-wizard.properties","liferay.properties","liferay-portal-ext.properties","liferay-display.properties","portal-ext.property"],
+   "good": 3
+ },
+ { "single": "Where can you find portal.properties file?",
+   "answers": [ "WEB-INF/lib/portal-impl.jar", "WEB-INF/classes", "portal home", "WEB-INF/lib/portal-props.jar" ]
+ },
+ { "single": "Choose the loading order of properties files!",
+   "answers": [ "portal.properties, portal-ext.properties, portal-setup-wizard.properties", "portal-ext.properties, portal.properties, portal-setup-wizard.properties", "portal-setup-wizard.properties, portal-ext.properties, portal.properties", "portal-setup-wizard.properties, , portal.properties, portal-ext.properties" ]
+ },
+ {
+   "description" : "Choose the best place for the given properties files!",
+   "matches": ["portal.properties", "portal-ext.properties", "portal-wizard.properties"],
+   "answers": ["WEB-INF/lib/portal-impl.jar", "liferay home", "liferay-home", "WEB-INF/classes", "WEB-INF/lib" ]
+ },
+ {
+   "description" : "Put a checkmark to all of the true statements!",
+   "statements" : ["Portals are accessed by Users", "Users can belong to Organizations", "Users can belong to User Groups","Pages belong to Sites",
+                   "Organizations can be associated with Sites", "Users can belong to Sites", "User Groups can belong to Sites",
+				   "User Groups can belong to Organizations"]
+ 
+ 
  }
 ]

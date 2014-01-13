@@ -4,6 +4,7 @@
 
 * [Matching question](#Matching question)
 * [Statement (true/false)](#statement)
+* [Statements (true/false)](#statements)
 * [short-answer](#short-answer)
 * [single-answer](#single-answer)
 * [multiple-answers](#multiple-answers)
@@ -49,6 +50,24 @@ User must decide if the statement is true or false
   answer : true|false
 }
 ```
+### statements
+
+#### description
+
+User must decide if the statements is true or false
+
+#### JSON
+
+```
+{ statements : ['html text', 'html text', ...],
+  answers : [ true|false, true|false, ...]
+}
+```
+
+#### defaults
+
+answers are true if not given. If number of answers are less than number of statements, the remaining answers
+will be 'true'.
 
 ### short-answer
 
