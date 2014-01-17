@@ -7,6 +7,7 @@
 	<script src="js/ko/knockout-3.0.0.debug.js"></script>
 	<script src="js/di/director.js"></script>
 	<script src="js/quiz.js"></script>
+    <link rel="Stylesheet" href="css/quiz.css" />
     <!-- TEMPLATES -->
     <script type="text/html" id="tpl_matches">
 		<ol data-bind="foreach: matches">
@@ -22,8 +23,8 @@
 		<div data-bind="text: multiple"></div>
 		<ul data-bind="foreach: answers">
 			<li>
-			<input type="checkbox" />
-			<span data-bind="text: $data"></span>
+			<input type="checkbox" data-bind="checked: isChecked"/>
+			<span data-bind="text: answer"></span>
 			
 			</li>
 		</ul>
@@ -63,9 +64,8 @@
 <a href="#/set">Settings</a>
 </div>
 
-<div id="page">
 
-<div data-bind="visible: state() === 'all'">
+<div id="allquestion" data-bind="visible: state() === 'all'">
     <div data-bind="foreach: questions">
         <div class="question">
             <div class="question-header" data-bind="text: $index"></div>
@@ -74,17 +74,16 @@
     </div>
 </div>
 
-<div data-bind="visible: state() === 'view'">
+<div id="viewquestion" data-bind="visible: state() === 'view'">
     <div class="question" data-bind="with: question">
         <div class="question-header" data-bind="text: 'TODO'"></div>
         <div data-bind="template: templateName"></div>
         <a data-bind="attr: { href : '#/view/'+(index-1)}, visible: index > 0">Prev</a>
-        <a data-bind="attr: { href : '#/view/'+(index+1)}, visible: index < $parent.questions.length">Next</a>
+        <a data-bind="attr: { href : '#/view/'+(index+1)}, visible: index < $parent.questions().length">Next</a>
     </div>
 
 </div>
 
-</div> <!-- page -->
 
 </body>
 </html>

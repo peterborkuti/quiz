@@ -34,7 +34,7 @@ $(function() {
                     self.matches.push(
                         {
                             match: v,
-                            selected: data.answers[i]
+                            selected: ko.observable(data.answers[0])
                         }
                     )
                 });
@@ -44,8 +44,16 @@ $(function() {
         var self = this;
 				self.questionType = 'multiple';
 				self.multiple = data.multiple;
-				self.answers = data.answers;
-				self.checked = new Array(data.answers.length);
+				self.answers = ko.observableArray([]);
+                
+                $(data.answers).each(function(i,v) {
+                    self.answers.push(
+                        {
+                            answer : v,
+                            isChecked : ko.observable(false)
+                        }
+                    );
+                });
 				self.good = data.good;
 
     }
@@ -55,7 +63,7 @@ $(function() {
 				self.questionType = 'single';
 				self.single = data.single;
 				self.answers = data.answers;
-				self.checked = new Array(data.answers.length);
+				self.checked = ko.observableArray(new Array(data.answers.length));
 				self.radioName = 'radio_';
     }
 
@@ -64,7 +72,7 @@ $(function() {
 				self.questionType = 'short';
 				self.short = data.short;
 				self.answers = data.answers;
-				self.answer = '';
+				self.answer = ko.observable('');
     }
 
     function StatementsQuestion(data) {
@@ -120,9 +128,7 @@ $(function() {
 	function getQuestions(questions) {
 		// Data
 
-		$.get( "data/data.json", function(allData) {
-			var data = $.parseJSON(allData);
-
+		$.get( "data/data.json", function(data) {
 			$(data).each(function(index, item) {
 				     questions.push( new Question(item, index) );
 			});
