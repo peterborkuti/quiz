@@ -16,12 +16,14 @@ http.createServer(function (request, response) {
 	var filePath = '.' + request.url;
 	if (filePath == './')
 		filePath = './index.htm';
-		
-	var extname = path.extname(filePath);
+	console.log("filePath:"+filePath);
+	var extname = path.extname(filePath).substr(1);
+    console.log("extname:"+extname);
 	var contentType = mimeTypes[extname];
 	if (contentType == "") {
 		contentType = 'text/html';
 	}
+    console.log("content-type:"+contentType);
 
 	path.exists(filePath, function(exists) {
 	
@@ -30,16 +32,19 @@ http.createServer(function (request, response) {
 				if (error) {
 					response.writeHead(500);
 					response.end();
+                    console.log("500");
 				}
 				else {
 					response.writeHead(200, { 'Content-Type': contentType });
 					response.end(content, 'utf-8');
+                    console.log("response sent");
 				}
 			});
 		}
 		else {
 			response.writeHead(404);
 			response.end();
+            console.log("404");
 		}
 	});
 	
