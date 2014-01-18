@@ -25,80 +25,82 @@ $(function() {
 			return array;
 			}
 
-    function MatchesQuestion(data) {
-                var self = this;
-				self.questionType = 'matches';
-				self.matches = [];
-				self.answers = data.answers;
-                $(data.matches).each(function(i,v) {
-                    self.matches.push(
+    function createAnswerArray(answers, defaultAnswer) {
+               var retVal = [];
+               $(answers).each(function(i,v) {
+                    retVal.push(
                         {
-                            match: v,
-                            selected: ko.observable(data.answers[0])
+                            answer: v,
+                            userInput: ko.observable(defaultAnswer)
                         }
                     )
                 });
+                return retVal;
+    }
+
+    function MatchesQuestion(data) {
+                var self = this;
+				self.questionType = 'matches';
+                self.whatToDo = data.whatToDo || 'Selects only the good answers. There could be 0 or not enough or more than enough good answers!';
+				self.answers = data.answers;
+                self.matches = createAnswerArray(data.matches, data.answers[0]);
+                self.good = data.good || self.answers.length;
     }
 
     function MultipleQuestion(data) {
         var self = this;
 				self.questionType = 'multiple';
+                self.whatToDo = data.whatToDo || 'Selects only the good answers with putting a checkmark into the boxes! There could be zero or more good answers.';
 				self.multiple = data.multiple;
-				self.answers = ko.observableArray([]);
-                
-                $(data.answers).each(function(i,v) {
-                    self.answers.push(
-                        {
-                            answer : v,
-                            isChecked : ko.observable(false)
-                        }
-                    );
-                });
-				self.good = data.good;
-
+                self.answers = createAnswerArray(data.answers, false);
     }
 
     function SingleQuestion(data) {
-        var self = this, r = Math.random();
-				self.questionType = 'single';
-				self.single = data.single;
-				self.answers = data.answers;
-				self.checked = ko.observableArray(new Array(data.answers.length));
-				self.radioName = 'radio_';
+        var self = this, r = (''+Math.random()+'').substr(2);
+		self.questionType = 'single';
+        self.whatToDo = data.whatToDo || 'Select only the good answer! There could be zero or one good answer.';
+        self.single = data.single;
+        self.answers = [];
+        $(data.answers).each(function(i,v) {
+                    self.answers.push(
+                        {
+                            answer: v,
+                            value: ""+i
+                        }
+                    )
+                });
+        self.userInput = ko.observable("");
+		self.radioName = 'radio_'+r;
     }
 
     function ShortQuestion(data) {
         var self = this;
-				self.questionType = 'short';
-				self.short = data.short;
-				self.answers = data.answers;
-				self.answer = ko.observable('');
+		self.questionType = 'short';
+        self.whatToDo = data.whatToDo || 'Write a short answer into the input field!';
+		self.short = data.short;
+		self.answers = data.answers;
+		self.userInput = ko.observable('');
     }
 
     function StatementsQuestion(data) {
         var self = this;
-				self.questionType = 'statements';
-				self.statements = data.statements;
-				self.answers = data.answers;
-                $(data.answers).each(function(i,v) {
-                    self.answers.push(
-                        {
-                            answer: v,
-                            selected: ko.observable(false)
-                        }
-                    )
-                });
+		self.questionType = 'statements';
+        self.whatToDo = data.whatToDo || 'Put a checkmark to the true statements!';
+		self.statements = createAnswerArray(data.statements, false);
     }
 
 
 	function Question(data, _index) {
+            console.log("Reading question:" + _index);
             var self = this, question = {};
+            self.whatToDo = data.whatToDo || '';
 			self.index = _index;
             self.description = data.description || '';
             self.portaldev = data.portaldev || '';
             self.portaladvdev = data.portaladvdev || '';
             self.explanation = data.explanation || '';
             self.hint = data.hint || '';
+            self.good = data.good || 0;
 			if ( typeof data.matches !== 'undefined' ) {
                 question = new MatchesQuestion(data);
 			}
@@ -123,9 +125,13 @@ $(function() {
                 }
             }
             self.templateName = 'tpl_'+self.questionType;
+            self.good = self.good || 1;
+            self.hint = self.hint || 'Number of good answers:' + self.good;
+            console.log(self);
 	}
 
 	function getQuestions(questions) {
+
 		// Data
 
 		$.get( "data/data.json", function(data) {
@@ -133,10 +139,17 @@ $(function() {
 				     questions.push( new Question(item, index) );
 			});
 		});
+
+
 	}
 
     function ViewModel() {
         var self = this;
+        self.settings = {};
+        self.settings.showWhatToDo = ko.observable(true);
+        self.settings.shuffleWhenLoading = ko.observable(true);
+        self.settings.showHints = ko.observable(true);
+        self.settings.debug = ko.observable(true);
         self.questions = ko.observableArray([]);
         getQuestions(self.questions);
         self.state = ko.observable('view'); // all, view, stat, settings
@@ -154,11 +167,11 @@ $(function() {
              console.log("all"); },
         routeView = function (questionId) {
              qvm.state('view');
-             questionId = questionId || qvm.questionId();
-             qvm.questionId(questionId);
+             questionId = "" + (questionId || qvm.questionId());
+             qvm.questionId( parseInt(questionId, 10) );
             console.log("view"); },
         routeStat = function() { console.log("stat"); },
-        routeSettings = function() { console.log("settings"); };
+        routeSettings = function() { console.log("settings"); qvm.state('settings')};
         
       var routes = {
         '/all': routeAll,

@@ -48,11 +48,7 @@
    "answers": ["WEB-INF/lib/portal-impl.jar", "liferay home", "liferay-home", "WEB-INF/classes", "WEB-INF/lib" ]
  },
  {
-   "description" : "Put a checkmark to all of the true statements!",
-   "statements" : ["Portals are accessed by Users", "Users can belong to Organizations", "Users can belong to User Groups","Pages belong to Sites",
-                   "Organizations can be associated with Sites", "Users can belong to Sites", "User Groups can belong to Sites",
-				   "User Groups can belong to Organizations"]
- 
- 
+   "description" : "Which are true for Liferay Portal?",
+   "statements" : ["Portals are accessed by Users", "Users can belong to Organizations", "Users can belong to User Groups","Pages belong to Sites","Organizations can be associated with Sites", "Users can belong to Sites", "User Groups can belong to Sites","User Groups can belong to Organizations"]
  }
 ]

@@ -4,6 +4,26 @@ body { font-family: Helvetica, Arial}
     margin: 10px 0 16px 0;
     font-size: 0px;
 }
+
+.questionbox {
+   -moz-border-radius: 5px;    /* Firefox 3.6-, removed in Firefox 13 */
+   -webkit-border-radius: 5px; /* Safari 4-, Chrome 3- */
+   border-radius: 5px;     /* Firefox 4+, Safari 5+, Chrome 4+, Opera 10.5+, IE9+ */
+   background-color: #bbb;
+   font-weight: bold; color: #444; text-shadow: #f7f7f7 0 1px 1px;
+   margin: 1em; padding: 0.5em;
+ }
+
+.question {
+   -moz-border-radius: 5px;    /* Firefox 3.6-, removed in Firefox 13 */
+   -webkit-border-radius: 5px; /* Safari 4-, Chrome 3- */
+   border-radius: 5px;     /* Firefox 4+, Safari 5+, Chrome 4+, Opera 10.5+, IE9+ */
+   background-color: #aaa;
+   font-weight: bold; color: #444; text-shadow: #f7f7f7 0 1px 1px;
+   margin: 1em; padding: 0.5em;
+   width: 90%; 
+ }
+
 .menu a {text-decoration:none;}
 .menu a:hover { background-color: #ddd; }    
 .menu a:first-child { border-left: none; border-radius: 7px 0 0 7px; }
@@ -12,7 +32,7 @@ body { font-family: Helvetica, Arial}
 .menu .selected { background-color: #444 !important; color: white; text-shadow:none; border-right-color: #aaa; border-left: none; box-shadow:inset 1px 2px 6px #070707; }    
 
 allquestion,viewquestion { width: 100%; height: 90%; background-color: #ccc; }
-.question { border-radius: 7px 0 0 7px; background-color: #bbb; font-weight: bold; color: #444; text-shadow: #f7f7f7 0 1px 1px; } 
+
 .page  { background-color: #bbb; font-weight: bold; color: #444; text-shadow: #f7f7f7 0 1px 1px; }
 .mails tbody tr:hover { cursor: pointer; background-color: #68c !important; color: White; }
 .mails th, .mails td { text-align:left; padding: 0.4em 0.3em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

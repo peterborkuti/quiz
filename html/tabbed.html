@@ -10,51 +10,64 @@
     <link rel="Stylesheet" href="css/quiz.css" />
     <!-- TEMPLATES -->
     <script type="text/html" id="tpl_matches">
+        <h3 data-bind="text: description"></h3>
 		<ol data-bind="foreach: matches">
 			<li>
-                <span data-bind="text: match"></span>
+                <span data-bind="text: answer"></span>
                 
-			<select data-bind="options: $parent.answers, value: selected"></select>
+			<select data-bind="options: $parent.answers, value: userInput"></select>
 
 			</li>
 		</ol>
     </script>
     <script type="text/html" id="tpl_multiple">
-		<div data-bind="text: multiple"></div>
+		<h3 data-bind="text: multiple"></h3>
 		<ul data-bind="foreach: answers">
 			<li>
-			<input type="checkbox" data-bind="checked: isChecked"/>
+			<input type="checkbox" data-bind="checked: userInput"/>
 			<span data-bind="text: answer"></span>
-			
 			</li>
 		</ul>
     </script>
     <script type="text/html" id="tpl_statements">
-		<div data-bind="foreach: statements">
-        
-
-        </div>
-		<ul data-bind="foreach: answers">
+		<h3 data-bind="text: description"></h3>
+		<ul data-bind="foreach: statements">
 			<li>
-			<input type="checkbox" />
-			<span data-bind="text: $data"></span>
-			
+			    <input type="checkbox" data-bind="checked: userInput"/>
+			    <span data-bind="text: answer"></span>
 			</li>
 		</ul>
     </script>
     <script type="text/html" id="tpl_single">
-    		<div data-bind="text: single"></div>
+		<h3 data-bind="text: single"></h3>
 		<ul data-bind="foreach: $data.answers">
 			<li>
-			<input type="radio" data-bind="radioName: 'radio_'+$parent.index"/>
-			<span data-bind="text: $data"></span>
+			<input type="radio" data-bind="radioName: $parent.radioName, value: value, checked: $parent.userInput"/>
+			<span data-bind="text: answer"></span>
 			</li>
 		</ul>
 </script>
     <script type="text/html" id="tpl_short">
-		<div data-bind="text: short"></div>
-        <input type="text"/>
+		<h3 data-bind="text: short"></h3>
+        <input type="text" data-bind="value: userInput"/>
 </script>
+    <script type="text/html" id="tpl_debug">
+     <pre data-bind="text: questionType" >
+        </pre>
+        <pre data-bind="text: index" >
+        </pre>
+        <pre data-bind="text: $parent.questions().length" >
+        </pre>
+        <pre data-bind="text: (index < ($parent.questions().length) - 1)" >
+        </pre>
+        <pre data-bind="text: hint" >
+        </pre>
+        <pre data-bind="text: $root.settings.showHints" >
+        </pre>
+        <pre data-bind="text: (index < ($parent.questions().length) - 1)" >
+        </pre>
+
+    </script>
 </head>
 <body>
 <div class="menu">
@@ -65,25 +78,39 @@
 </div>
 
 
-<div id="allquestion" data-bind="visible: state() === 'all'">
     <div data-bind="foreach: questions">
-        <div class="question">
-            <div class="question-header" data-bind="text: $index"></div>
-            <div data-bind="template: templateName"></div>
+        <div class="questionbox" data-bind="visible: ( $parent.state() === 'all' ) || ( $parent.state() === 'view' && index == $parent.questionId() )">
+
+            <div class="question-head">
+                <div class="control" data-bind="visible: $parent.state() === 'view'">
+                    <a style="float:left;" data-bind="attr: { href : '#/view/'+(index-1)}, visible: index > 0">Prev</a>
+                    <a style="float:right;" data-bind="attr: { href : '#/view/'+(index+1)}, visible: (index < ($parent.questions().length) - 1)">Next</a>
+                    <div style="clear: both;"></div>
+                </div>
+               <div class="control" style="text-align: center" data-bind="visible: $parent.state() === 'all'">
+                    <a data-bind="attr: { href : '#/view/'+(index)}">View only this</a>
+                </div>
+
+                <div>Question number: <span data-bind="text: index"></span></div>
+                <div data-bind="text: whatToDo, visible: $root.settings.showWhatToDo"></div>
+                <div class="hint" data-bind="visible: hint && $root.settings.showHints, text: hint"></div>
+            </div>
+
+            <div class="question" data-bind="template: templateName"></div>
         </div>
-    </div>
-</div>
 
-<div id="viewquestion" data-bind="visible: state() === 'view'">
-    <div class="question" data-bind="with: question">
-        <div class="question-header" data-bind="text: 'TODO'"></div>
-        <div data-bind="template: templateName"></div>
-        <a data-bind="attr: { href : '#/view/'+(index-1)}, visible: index > 0">Prev</a>
-        <a data-bind="attr: { href : '#/view/'+(index+1)}, visible: index < $parent.questions().length">Next</a>
+        <div data-bind="visible: $root.settings.debug, template: tpl_debug"></div>
+
     </div>
 
-</div>
-
+    <div class="settings" data-bind="visible: ( state() === 'settings' )">
+        <ul>
+            <li><input type='checkbox' data-bind="checked: settings.debug"/>Debug</li>
+            <li><input type='checkbox' data-bind="checked: settings.showHints"/>Show hints</li>
+            <li><input type='checkbox' data-bind="checked: settings.showWhatToDo"/>Show what to do</li>
+            <li><input type='checkbox' data-bind="checked: settings.shuffleWhenLoading"/>Shuffle answers when loading</li>
+        </ul>
+    </div>
 
 </body>
 </html>
