@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="js/ko/knockout-3.0.0.debug.js"></script>
+</head>
+<body>
+
+		<ol data-bind="foreach: values">
+			<li>
+                <input name="radio1" type="radio" data-bind="value: $data, checked: $parent.userInput" />
+          </li>
+		</ol>
+
+
+
+        <select data-bind="options: values, value: userInput"></select>
+
+        <div>Show second radios: 
+        <input type="checkbox" data-bind="checked: showSecond"/>
+        </div>
+
+        <div data-bind="visible: showSecond">
+		<ol data-bind="foreach: values">
+			<li>
+                <input name="radio2" type="radio" data-bind="value: $data, checked: $parent.userInput" />
+          </li>
+		</ol>
+        </div>
+
+
+	<script>
+        (function() {
+            function ViewModel() {
+                this.values = [ "1", "2", "3" ];
+                this.userInput = ko.observable();
+                this.showSecond = ko.observable(true);
+            }
+            	ko.applyBindings(new ViewModel());
+        })();
+</script>
+</body>
+</html>
