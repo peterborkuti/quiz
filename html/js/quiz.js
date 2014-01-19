@@ -146,6 +146,7 @@ $(function() {
     function ViewModel() {
         var self = this;
         self.settings = {};
+        self.settings.showGoToQuestion = ko.observable(true);
         self.settings.showWhatToDo = ko.observable(true);
         self.settings.shuffleWhenLoading = ko.observable(true);
         self.settings.showHints = ko.observable(true);

@@ -79,16 +79,29 @@
 
 
     <div data-bind="foreach: questions">
+        <div data-bind="if: ( $parent.state() === 'all' ), attr: {id : 'q' + index}"></div>
         <div class="questionbox" data-bind="visible: ( $parent.state() === 'all' ) || ( $parent.state() === 'view' && index == $parent.questionId() )">
 
             <div class="question-head">
-                <div class="control" data-bind="visible: $parent.state() === 'view'">
+
+                <div class="control" data-bind="if: $parent.state() === 'view'">
                     <a style="float:left;" data-bind="attr: { href : '#/view/'+(index-1)}, visible: index > 0">Prev</a>
                     <a style="float:right;" data-bind="attr: { href : '#/view/'+(index+1)}, visible: (index < ($parent.questions().length) - 1)">Next</a>
                     <div style="clear: both;"></div>
+                    <div data-bind="if: $root.settings.showGoToQuestion">
+                        <div style="text-align: center" data-bind="foreach: $root.questions, value: $index">
+                            <a data-bind="attr: { href : '#/view/'+(index)}, text: index"></a>
+                        </div>
+                    </div>
                 </div>
-               <div class="control" style="text-align: center" data-bind="visible: $parent.state() === 'all'">
+
+               <div class="control" style="text-align: center" data-bind="if: $parent.state() === 'all'">
                     <a data-bind="attr: { href : '#/view/'+(index)}">View only this</a>
+                    <div data-bind="if: $root.settings.showGoToQuestion">
+                        <div data-bind="foreach: $root.questions, value: $index">
+                            <a data-bind="attr: { href : '#q'+(index)}, text: index"></a>
+                        </div>
+                    </div>
                 </div>
 
                 <div>Question number: <span data-bind="text: index"></span></div>
@@ -109,6 +122,7 @@
             <li><input type='checkbox' data-bind="checked: settings.showHints"/>Show hints</li>
             <li><input type='checkbox' data-bind="checked: settings.showWhatToDo"/>Show what to do</li>
             <li><input type='checkbox' data-bind="checked: settings.shuffleWhenLoading"/>Shuffle answers when loading</li>
+            <li><input type='checkbox' data-bind="checked: settings.showGoToQuestion"/>Show "go to questions" line</li>
         </ul>
     </div>
 
